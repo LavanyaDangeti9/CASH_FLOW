@@ -1,0 +1,91 @@
+<mvc:View controllerName="forecastcashflow.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns:Label="sap.m.Label"
+	xmlns:core="sap.ui.core" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:f="sap.f" xmlns:fb="sap.ui.comp.filterbar" xmlns:form="sap.ui.layout.form" xmlns:layout="sap.ui.layout" height="100%"
+    xmlns="sap.m">
+    <f:DynamicPage  id="page" >
+        <f:title>
+            <f:DynamicPageTitle id="_IDGenDynamicPageTitle1">
+                <f:heading>
+                    <Title id="_IDGenTitle1" text="CASH_FORECAST"/>
+                </f:heading>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+				<f:DynamicPageHeader id="_IDGenDynamicPageHeader1">
+					<f:content>
+						<fb:FilterBar id="filterbar" search="onFilter" >
+							<fb:filterGroupItems>
+								<fb:FilterGroupItem id="Filter1" name="Company Code" label="Company Code" groupName="Group1" visibleInFilterBar="true">
+									<fb:control>
+										<MultiComboBox id="_IDGenMultiComboBox1"
+											name="Name"
+											selectionChange=".onSelectionChange">
+											<core:Item id="_IDGenItem1" key="1710" text="1710"/>
+										</MultiComboBox>
+									</fb:control>
+								</fb:FilterGroupItem>
+								<fb:FilterGroupItem id="filter2" name="Forecast for Current + No. of Days" label="Forecast for Current + No. of Days" groupName="Group1" visibleInFilterBar="true">
+									<fb:control>
+										<Select id="forecastdays"
+											name="forecastdays"
+										>
+											<core:Item id="_IDGenItem2"  text="7"/>
+											<core:Item id="_IDGenItem21"  text="15"/>
+											<core:Item id="_IDGenItem22"  text="30"/>
+										</Select>
+									</fb:control>
+								</fb:FilterGroupItem>
+								<fb:FilterGroupItem id="_IDGenFilterGroupItem" name="Current Date" label="Current Date" groupName="Group1" visibleInFilterBar="true">
+									<fb:control>
+										<MultiComboBox id="_IDGenMultiComboBox3"
+											name="SupplierName"
+											selectionChange=".onSelectionChange"
+										>
+											<core:Item id="_IDGenItem3"  text=""/>
+										</MultiComboBox>
+									</fb:control>
+								</fb:FilterGroupItem>
+							</fb:filterGroupItems>
+						</fb:FilterBar>
+					</f:content>
+				</f:DynamicPageHeader>
+		</f:header>
+		<f:content>
+				<Table id="_IDGenTable" items="{/filteredData}" >
+					<columns>
+						<Column id="_IDGenColumn6" >
+							<Text id="_IDGenText5" text="Date"></Text>
+						</Column>
+						<Column id="_IDGenColumn1" >
+							<Text id="_IDGenText" text="CM_ACCOUNT1"></Text>
+						</Column>
+						<Column id="_IDGenColumn2" >
+							<Text id="_IDGenText1" text="CM_ACCOUNT2"></Text>
+						</Column>
+						<Column id="_IDGenColumn3" >
+							<Text id="_IDGenText2" text="CM_ACCOUNT3"></Text>
+						</Column>
+						<Column id="_IDGenColumn4" >
+							<Text id="_IDGenText3" text="CM_ACCOUNT4"></Text>
+						</Column>
+						<Column id="_IDGenColumn5" >
+							<Text id="_IDGenText4" text="CM_ACCOUNT5"></Text>
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem id="_IDGenColumnListItem1" >
+							<cells>
+								<Text id="_IDGenText6" text="{date}"></Text>
+								<Text id="_IDGenText7" text="{CM_Account1}"></Text>
+								<Text id="_IDGenText8" text="{CM_Account2}"></Text>
+								<Text id="_IDGenText9" text="{CM_Account3}"></Text>
+								<Text id="_IDGenText10" text="{CM_Account4}"></Text>
+								<Text id="_IDGenText11" text="{CM_Account5}"></Text>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+		</f:content>
+    </f:DynamicPage>
+</mvc:View>
+

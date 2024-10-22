@@ -1,0 +1,92 @@
+_schema-version: "3.2"
+ID: PROJECT_CASH_FLOW
+version: 0.0.1
+modules:
+- name: PROJECT_CASH_FLOW-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: PROJECT_CASH_FLOW-destination-service
+    parameters:
+      content-target: true
+  - name: PROJECT_CASH_FLOW_html_repo_host
+    parameters:
+      service-key:
+        name: PROJECT_CASH_FLOW_html_repo_host-key
+  - name: uaa_PROJECT_CASH_FLOW
+    parameters:
+      service-key:
+        name: uaa_PROJECT_CASH_FLOW-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: PROJCASHFLOW_PROJECT_CASH_FLOW_html_repo_host
+          ServiceInstanceName: PROJECT_CASH_FLOW-html5-app-host-service
+          ServiceKeyName: PROJECT_CASH_FLOW_html_repo_host-key
+          sap.cloud.service: PROJCASHFLOW
+        - Authentication: OAuth2UserTokenExchange
+          Name: PROJCASHFLOW_uaa_PROJECT_CASH_FLOW
+          ServiceInstanceName: PROJECT_CASH_FLOW-xsuaa-service
+          ServiceKeyName: uaa_PROJECT_CASH_FLOW-key
+          sap.cloud.service: PROJCASHFLOW
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+- name: PROJECT_CASH_FLOW-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: PROJECT_CASH_FLOW_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - forecastcashflow.zip
+      name: forecastcashflow
+      target-path: resources/
+- name: forecastcashflow
+  type: html5
+  path: forecast_cash_flow
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: PROJECT_CASH_FLOW-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: PROJECT_CASH_FLOW-destination-service
+    service-plan: lite
+- name: PROJECT_CASH_FLOW_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: PROJECT_CASH_FLOW-html5-app-host-service
+    service-plan: app-host
+- name: uaa_PROJECT_CASH_FLOW
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: PROJECT_CASH_FLOW-xsuaa-service
+    service-plan: application
+parameters:
+  deploy_mode: html5-repo
